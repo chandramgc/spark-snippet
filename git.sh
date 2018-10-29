@@ -1,6 +1,6 @@
 #!/bin/sh
 comment=$1
-today=`date +%Y-%m-%d.%H:%M:%S`
+today=`date`
 if [ -z "$1" ]
   then
     echo "Please provide user comments:"
