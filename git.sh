@@ -1,6 +1,6 @@
 #!/bin/sh
 comment=$1
-today=`zdump ET`
+today=`zdump EST`
 if [ -z "$1" ]
   then
     echo "Please provide user comments:"
