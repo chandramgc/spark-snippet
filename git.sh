@@ -7,7 +7,7 @@ if [ -z "$1" ]
     read comment
     if [ -z "$comment" ]
       then
-        comment=$today
+        comment='Current commit is on $today'
     fi
 fi
 echo "User comments: "  $comment
