@@ -7,7 +7,7 @@ if [ -z "$1" ]
     read comment
     if [ -z "$comment" ]
       then
-        comment=today
+        comment=$today
     fi
 fi
 echo "User comments: "  $comment
