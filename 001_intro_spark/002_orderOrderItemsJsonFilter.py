@@ -14,8 +14,9 @@ log4j.LogManager.getRootLogger().setLevel(log4j.Level.WARN)
 
 order_json = sqlContext.read.json("/public/retail_db_json/orders/")
 order_json_copy = sqlContext.read.format("json").load("/public/retail_db_json/orders/")
-
-consolePrint = order
+order = sc.textFile("/public/retail_db/orders")
+orderfilter = order.filter(lambda l : l.split(",")[3] in ("CLOSED","COMPLETE"))
+consolePrint = orderfilter
 
 print ""
 print "************************************************************************************************"
