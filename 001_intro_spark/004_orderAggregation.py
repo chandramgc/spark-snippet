@@ -19,15 +19,21 @@ orderItems = sc.textFile("/public/retail_db/order_items")
 orderItemsFilter = orderItems.filter(lambda l : int(l.split(",")[1]) == 2)
 orderItemsSubTotal = orderItemsFilter.map(lambda l : float(l.split(",")[4]))
 
-orderTotal = orderItemsSubTotal.reduce(add)
+consolePrint = orderItemsFilter
+orderItemsTotal = orderItemsSubTotal.reduce(add)
+orderItemsTotalL = orderItemsSubTotal.reduce(lambda x, y: x + y)
+orderItemsFilterMin = orderItemsFilter.reduce(lambda x, y: 
+		x if(float(x.split(",")[4]) < float(y.split(",")[4])) else y
+	)
 
 print ""
 print "************************************************************************************************"
 print "Job started at " + startTimeStr
 print ""
 
-#for i in consolePrint.take(50) : print(i) 
-print(orderTotal)
+for i in consolePrint.take(50) : print(i) 
+print("Order Items filter sum :" + str(orderItemsTotalL))
+print("Order Items filter min :" + str(orderItemsFilterMin))
 
 print ""
 print "Job stoped at " + time.strftime("%c")
