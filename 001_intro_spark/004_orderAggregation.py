@@ -16,6 +16,11 @@ log4j.LogManager.getRootLogger().setLevel(log4j.Level.WARN)
 order = sc.textFile("/public/retail_db/orders")
 orderItems = sc.textFile("/public/retail_db/order_items")
 
+orderMap = order. \
+                map(lambda l : (int(l.split(",")[0]) , l.split(",")[1]))
+orderItemsMap = orderItems. \
+                map(lambda li : (int(li.split(",")[1]) , float(li.split(",")[4])))
+
 orderItemsFilter = orderItems.filter(lambda l : int(l.split(",")[1]) == 2)
 orderItemsSubTotal = orderItemsFilter.map(lambda l : float(l.split(",")[4]))
 
@@ -25,6 +30,10 @@ orderItemsTotalL = orderItemsSubTotal.reduce(lambda x, y: x + y)
 orderItemsFilterMin = orderItemsFilter.reduce(lambda x, y: 
 		x if(float(x.split(",")[4]) < float(y.split(",")[4])) else y
 	)
+orderItemsGroupByOrderId = orderItemsMap.groupByKey()
+revenuePerOrderId = orderItemsGroupByOrderId. \
+		map(lambda oi : (oi[0], sum(oi[1])))
+
 
 print ""
 print "************************************************************************************************"
@@ -34,6 +43,7 @@ print ""
 for i in consolePrint.take(50) : print(i) 
 print("Order Items filter sum :" + str(orderItemsTotalL))
 print("Order Items filter min :" + str(orderItemsFilterMin))
+for i in revenuePerOrderId.take(10) : print(i)
 
 print ""
 print "Job stoped at " + time.strftime("%c")
