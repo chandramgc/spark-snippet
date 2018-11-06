@@ -23,11 +23,14 @@ orderItemsMap = orderItems. \
 orderItemsMap2 = orderItems. \
 		map(lambda l : (int(l.split(",")[1]), l))
 
-orderItemsReduceByOrderId = orderItemsMap.reduceByKey()
-revenuePerOrderId = orderItemsGroupByOrderId. \
+revenuePerOrderId = orderItemsMap. \
 		reduceByKey(lambda x, y: x + y)
-revenuePerOrderIdAdd = orderItemsGroupByOrderId. \
+revenuePerOrderIdAdd = orderItemsMap. \
                 reduceByKey(add)
+minSubtotalPerOrderId = orderItemsMap. \
+		reduceByKey(lambda x, y: x if(x < y) else y)
+minSubtotalPerOrderId2 = orderItemsMap2. \
+                reduceByKey(lambda x, y: x if(float(x.split(",")[4]) < float(y.split(",")[4])) else y)
 
 #orderItemsSortedBySubtotalPerOrder = orderItemsGroupByOrderId2. \
 #		map(lambda oi: sorted(oi[1], key=lambda k: float(k.split(",")[4]), reverse=True))
@@ -40,8 +43,8 @@ print "Job started at " + startTimeStr
 print ""
 
 for i in revenuePerOrderId.take(5) : print(i)
-#for i in orderItemsGroupByOrderId.take(5) : print(i)
-#for i in orderItemsSortedBySubtotalPerOrderFlat.take(5) : print(i)
+for i in minSubtotalPerOrderId.take(5) : print(i)
+for i in minSubtotalPerOrderId2.take(5) : print(i)
 
 print ""
 print "Job stoped at " + time.strftime("%c")
