@@ -26,18 +26,17 @@ orderItemsMap2 = orderItems. \
 revenuePerOrder = orderItemsMap. \
 		aggregateByKey((0.0, 0), 
 		lambda x, y: (x[0] + y, x[1] + 1),
-		lambda x, y: 
-#minSubtotalPerOrderId2 = orderItemsMap2. \
-#                reduceByKey(lambda x, y: x if(float(x.split(",")[4]) < float(y.split(",")[4])) else y)
+		lambda x, y: (x[0] + y[0], x[1] + y[1]))
 
 print ""
 print "************************************************************************************************"
 print "Job started at " + startTimeStr
 print ""
 
-for i in revenuePerOrder.take(5) : print(i)
-#for i in minSubtotalPerOrderId.take(5) : print(i)
-#for i in minSubtotalPerOrderId2.take(5) : print(i)
+print("orderItemsMap :")
+for i in orderItemsMap.take(15) : print(i)
+print("revenuePerOrder :")
+for i in revenuePerOrder.take(15) : print(i)
 
 print ""
 print "Job stoped at " + time.strftime("%c")
