@@ -26,6 +26,10 @@ takeOrderProduct = productMap.takeOrdered(10, key=lambda k: float(k.split(",")[4
 
 productGroupByCategoryId = productMap1.groupByKey()
 
+topNProductsByCategory = productGroupByCategoryId. \
+		flatMap(lambda p: sorted(p[1], key=lambda k: float(k.split(",")[4]),
+		reverse=True)[:3])
+
 print ""
 print "************************************************************************************************"
 print "Job started at " + startTimeStr
@@ -37,6 +41,8 @@ print("productSortedByPrice By top:")
 for i in topProduct : print(i)
 print("productSortedByPrice By takeOrder:")
 for i in takeOrderProduct : print(i)
+print("productSortedByCategory:")
+for i in topNProductsByCategory.take(10) : print(i)
 
 print ""
 print "Job stoped at " + time.strftime("%c")
