@@ -23,16 +23,25 @@ orderItemsMap = orderItems. \
 
 revenuePerOrderId = orderItemsMap. \
 		reduceByKey(add). \
-		map(lambda r: str(r[0]) + "\t" + str(r[1]))
+		map(lambda r: (r[0], round(r[1],2)))
+
+revenuePerOrderIdDF = revenuePerOrderId. \
+		toDF(schema=["order_id", "order_revenue"])
 
 revenuePerOrderId.saveAsTextFile("/user/chandramgc/data/revenue_per_order_id")
+revenuePerOrderId.saveAsTextFile("/user/chandramgc/data/revenue_per_order_id_compressed", compressionCodecClass="org.apache.hadoop.io.compress.SnappyCodec")
 
 print ""
 print "************************************************************************************************"
 print "Job started at " + startTimeStr
 print ""
 
-for i in revenuePerOrderId.take(10) : print(i) 
+print("Revenue per order id DataFrames: ")
+print(revenuePreOrderIdDF.show())
+print("Revenue per order id: ")
+for i in sc.textFile("/user/chandramgc/data/revenue_per_order_id").take(10) : print(i) 
+print("Revenue per order id compressed: ")
+for i in sc.textFile("/user/chandramgc/data/revenue_per_order_id_compressed").take(10) : print(i)
 
 print ""
 print "Job stoped at " + time.strftime("%c")
