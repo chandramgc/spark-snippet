@@ -1,0 +1,11 @@
+#Find core-site.xml
+
+vi /etc/hadoop/conf/core-site.xml
+
+#Find compression codecs in core-site.xml
+
+vi /etc/hadoop/conf/core-site.xml
+/codecs
+
+
+
