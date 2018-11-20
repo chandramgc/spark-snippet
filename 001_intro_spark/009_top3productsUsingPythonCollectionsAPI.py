@@ -43,15 +43,15 @@ def getTopNPricedProductsPerCategoryId(productsPerCategoryId, topN):
 			productsSorted
 			)	
 topNPricedProducts = productsGroupByCategoryId. \
-	flatMap(lambda p: getTopNPricedProductsPerCategoryId(p, 3
+	flatMap(lambda p: getTopNPricedProductsPerCategoryId(p, 3))
 
 print ""
 print "************************************************************************************************"
 print "Job started at " + startTimeStr
 print ""
 
-print("productTop3PricedProducts:")
-for i in lt : print(i)
+print("topNPricedProducts:")
+for i in topNPricedProducts.collect(): print(i)
 
 print ""
 print "Job stoped at " + time.strftime("%c")
